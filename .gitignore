@@ -1,0 +1,52 @@
+# Rust
+ssl-checker-backend/target/
+ssl-checker-backend/Cargo.lock
+ssl-checker-backend/**/*.rs.bk
+ssl-checker-backend/**/*.rs.orig
+
+# Node.js
+ssl-checker-frontend/node_modules/
+ssl-checker-frontend/package-lock.json
+ssl-checker-frontend/.next/
+ssl-checker-frontend/.pnp
+ssl-checker-frontend/.pnp.js
+ssl-checker-frontend/.yarn/install-state.gz
+
+# testing
+ssl-checker-frontend/coverage
+
+# next.js
+ssl-checker-frontend/.next/
+ssl-checker-frontend/out/
+
+# production
+ssl-checker-frontend/build
+
+# Build output
+dist/
+build/
+*.o
+*.dSYM/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.DS_Store
