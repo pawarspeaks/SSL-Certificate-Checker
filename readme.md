@@ -38,7 +38,6 @@ Next.js was selected for the frontend because of its:
 4. **HTTPS**: The backend server is not set up with HTTPS. In a production environment, the backend should use HTTPS to ensure secure communication.
 5. **Testing**: More comprehensive unit and integration tests should be added to ensure reliability and ease of maintenance.
 6. **Accessibility**: While basic accessibility features are in place, a more thorough accessibility audit and improvements could be made.
-7. **Internationalization**: The application currently only supports English. Adding support for multiple languages would improve its global usability.
 
 ## Setup and Running the Application
 
