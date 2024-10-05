@@ -3,7 +3,6 @@
 This project is an SSL Certificate Checker application with a Rust backend and a Next.js frontend. It allows users to check the SSL certificate status of a given domain and provides analytics on the checks performed.
 
 ![Screenshot (4333)](https://github.com/user-attachments/assets/19501ab5-7157-44a7-a7eb-23581775d835)
-![Screenshot (4334)](https://github.com/user-attachments/assets/a5e81434-20fc-449a-9907-0580402e6ae9)
 ![Screenshot (4335)](https://github.com/user-attachments/assets/ff403806-18b8-4776-ac4d-7e97605f2338)
 
 
