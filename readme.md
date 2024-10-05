@@ -91,3 +91,71 @@ A successful response will return a JSON object containing details about the SSL
   "revocation_status": "Not implemented"
 }
 ```
+
+# RUST libraries
+
+1. actix_cors::Cors
+Purpose: This module is used to handle Cross-Origin Resource Sharing (CORS) policies in web applications built with the Actix framework.
+Usage:
+It's essential when you're building a web service that might be called by frontends hosted on different domains (e.g., making API requests from a web app). CORS allows the backend to specify which origins are allowed to make requests, which HTTP methods are allowed, and more.
+You can configure it to allow or block requests from specific domains, allowing requests from all origins, etc.
+
+2. actix_web::{web, App, HttpServer, Responder, HttpResponse}
+web: Provides utilities to extract data from incoming HTTP requests (e.g., query parameters, JSON body data, path variables). It also handles request routing in Actix.
+App: Represents an Actix web application. It's used to configure routes, middlewares, and other application-wide configurations.
+HttpServer: This struct is used to create and run the HTTP server. It binds to a specific address and listens for incoming HTTP requests.
+Responder: A trait that allows for types to respond to HTTP requests. If a function returns a type implementing Responder, it can be converted into an HTTP response.
+HttpResponse: Represents an HTTP response that the server sends back to the client. You can use it to send responses with specific status codes, headers, and body content.
+
+3. rustls::{ClientConfig, RootCertStore, OwnedTrustAnchor}
+ClientConfig:
+This struct is part of the Rustls library, which is a TLS (Transport Layer Security) library for encrypted communication.
+ClientConfig allows you to configure TLS settings, including which root certificates to trust, cipher suites, and whether or not to require client authentication.
+RootCertStore:
+This struct holds a collection of trusted root certificates used for verifying the authenticity of TLS certificates. It is essential for validating the certificate presented by the server during the TLS handshake.
+OwnedTrustAnchor:
+This represents a Trust Anchor—a root certificate that is trusted to validate server certificates during the TLS handshake. Rustls uses this struct to build a chain of trust between the server's certificate and a trusted root certificate.
+
+4. x509_parser::prelude::*
+Purpose: The x509_parser library is used to parse and handle X.509 certificates (the format used for SSL/TLS certificates).
+Usage:
+It provides types and methods for extracting data from certificates such as validity periods, subject/issuer names, extensions, and more.
+The prelude::* syntax imports common types and traits from the library into your scope, making it easier to work with X.509 certificates without importing specific structs and functions.
+
+5. serde::{Deserialize, Serialize}
+Deserialize: This trait is used to convert structured data (e.g., JSON) into a Rust struct. When a client sends a JSON request, Deserialize is used to map the JSON fields to Rust struct fields.
+Serialize: This trait allows converting a Rust struct into a format suitable for transmission or storage (e.g., JSON). You use this when sending data back to the client in response to a request.
+
+6. chrono::{DateTime, Utc}
+Purpose: The chrono crate provides utilities for working with dates and times.
+DateTime: This struct represents a specific point in time. It is used in the code to handle the start and end dates of an SSL certificate’s validity period.
+Utc: Represents the Coordinated Universal Time (UTC) time zone. In this case, Utc::now() is used to get the current time for comparing certificate validity.
+
+7. std::sync::Arc
+Purpose: Arc stands for Atomic Reference Counting. It allows multiple threads or asynchronous tasks to share ownership of a value (such as a configuration object) without needing to make copies.
+Usage: Arc is used in the code to allow the TLS configuration (like ClientConfig) to be shared between multiple tasks (e.g., multiple requests) safely in a multi-threaded environment.
+
+8. tokio::net::TcpStream
+Purpose: TcpStream is part of the Tokio asynchronous runtime. It is used to establish and manage a connection to a remote TCP server.
+Usage:
+In this code, TcpStream::connect is used to asynchronously connect to a server over the network using TCP.
+Once the connection is established, it's wrapped with a TLS connector to perform a secure TLS handshake.
+
+9. tokio_rustls::TlsConnector
+Purpose: The TlsConnector struct from the tokio_rustls crate is used to perform a TLS handshake over a TCP connection.
+Usage:
+After creating a TCP connection to a server, the TlsConnector::connect method is used to negotiate a secure TLS connection.
+This connector requires a ClientConfig object for setting up trusted root certificates, cipher suites, etc.
+
+10. webpki_roots::TLS_SERVER_ROOTS
+Purpose: This is a collection of root certificates provided by the webpki_roots crate. These are common root certificates (like those issued by trusted certificate authorities) used for validating SSL/TLS certificates during a connection.
+Usage:
+In the code, TLS_SERVER_ROOTS is added to the RootCertStore to provide a list of trusted root certificates for verifying the server's certificate.
+
+# Overall Flow:
+-The application uses Actix Web as the web framework to handle HTTP requests and responses, specifically for SSL certificate checks.
+-Rustls and Tokio are used to establish a secure connection to the target domain via TLS over TCP.
+-The certificate from the domain is extracted and parsed using x509_parser, and important details such as validity dates, issuer, and subject are retrieved.
+-Serde is used to handle the incoming request (a domain name) and format the outgoing response (certificate details).
+-The chrono crate is used to check whether the certificate is still valid based on the current time.
+-This combination of libraries creates an efficient, asynchronous, and secure application for checking SSL certificates in Rust.
